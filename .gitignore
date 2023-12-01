@@ -1,0 +1,8 @@
+# ignore all the input files
+**data.txt
+
+# MacOS stuff
+**/.DS_Store
+
+# ide
+**/.vscode
