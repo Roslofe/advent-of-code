@@ -1,6 +1,3 @@
-from math import ceil
-
-
 class Race:
     def __init__(self, t, d):
         self.__time = int(t)
