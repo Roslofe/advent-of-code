@@ -1,0 +1,43 @@
+# parse the data file to get only the lines
+def parse(filename):
+    lines = []
+    try:
+        with open(filename, "r") as file:
+            contents = file.readlines()
+            lines = map(lambda n: n.rstrip(), contents)
+            file.close()
+    except OSError:
+        print("Error in reading the file.")
+
+    return list(lines)
+
+
+def main():
+    lines = parse("day8/data.txt")
+    traverse_path = list(lines[0])
+    # map the paths
+    nodes = {}
+    for line in lines[2:]:
+        start = line[:3]
+        left = line[7:10]
+        right = line[12:15]
+        nodes[start] = (left, right)
+    steps = 0
+    i = 0
+    location = "AAA"
+    # update the current location based on the directions
+    while i < len(traverse_path) and not location == "ZZZ":
+        if traverse_path[i] == "L":
+            direction = 0
+        else:
+            direction = 1
+        location = nodes[location][direction]
+        steps += 1
+        if i == len(traverse_path) - 1:
+            i = 0
+        else:
+            i += 1
+    print(f"Number of steps to ZZZ: {steps}")
+
+
+main()
