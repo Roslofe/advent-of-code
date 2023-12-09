@@ -12,7 +12,7 @@ def parse(filename):
     return list(lines)
 
 
-def extrapolate(numbers):
+def extrapolate_forward(numbers):
     extrapolations = 0
     for reading in numbers:
         values = [list(map(lambda n: int(n), reading))]
@@ -31,10 +31,31 @@ def extrapolate(numbers):
     return extrapolations
 
 
+def extrapolate_backward(numbers):
+    extrapolations = 0
+    for reading in numbers:
+        values = [list(map(lambda n: int(n), reading))]
+        # first, create the differences
+        while not all(n == 0 for n in values[-1]):
+            curr_values = values[-1]
+            differences = []
+            for i in range(0, len(curr_values) - 1):
+                differences.append(curr_values[i + 1] - curr_values[i])
+            values.append(differences)
+        values[-1].insert(0, 0)
+        # add the extrapolations to each row
+        for i in range(len(values) - 2, -1, -1):
+            values[i].insert(0, values[i][0] - values[i + 1][0])
+        extrapolations += values[0][0]
+    return extrapolations
+
+
 def main():
     numbers = list(map(lambda m: m.split(), parse("day9/data.txt")))
-    extrapolations = extrapolate(numbers)
-    print(f"The sum of extrapolations: {extrapolations}")
+    extrapolations = extrapolate_forward(numbers)
+    backwards = extrapolate_backward(numbers)
+    print(f"The sum of forward extrapolations: {extrapolations}")
+    print(f"The sum of backwards extrapolations: {backwards}")
 
 
 main()
