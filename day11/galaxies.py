@@ -17,32 +17,30 @@ def parse(filename):
 
 def galaxy_array(lines):
     galaxy_lines = [list(line) for line in lines]
-    # find out the empty rows, and double them
-    i = 0
-    while i < len(galaxy_lines):
-        if "#" not in galaxy_lines[i]:
-            galaxy_lines.insert(i, ["."] * len(galaxy_lines[0]))
-            i += 2
-        else:
-            i += 1
-
-    # find out the empty columns, double them
-    i = 0
-    while i < len(galaxy_lines[0]):
-        if "#" not in [line[i] for line in galaxy_lines]:
-            for line in galaxy_lines:
-                line.insert(i, ".")
-            i += 2
-        else:
-            i += 1
-
     # store galaxy locations: x, y
     galaxies = []
     for y in range(0, len(galaxy_lines)):
         for x in range(0, len(galaxy_lines[0])):
             if galaxy_lines[y][x] == "#":
                 galaxy_lines[y][x] = len(galaxies)
-                galaxies.append((x, y))
+                galaxies.append([x, y])
+
+    # find empty rows, edit the coordinates of affected galaxies
+    increases = 0
+    for i in range(0, len(galaxy_lines)):
+        line = galaxy_lines[i]
+        if not any(isinstance(n, int) for n in line):
+            for galaxy in list(filter(lambda n: n[1] > i + increases, galaxies)):
+                galaxy[1] += 1
+            increases += 1
+
+    # find empty columns, edit the coordinates of affected galaxies
+    increases = 0
+    for i in range(0, len(galaxy_lines[0])):
+        if not any(isinstance(n, int) for n in [line[i] for line in galaxy_lines]):
+            for galaxy in list(filter(lambda n: n[0] > i + increases, galaxies)):
+                galaxy[0] += 1
+            increases += 1
 
     return galaxies
 
