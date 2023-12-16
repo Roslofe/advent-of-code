@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 SPLITTER_DIRECTIONS = {
     "l": ["u", "d"],
     "r": ["u", "d"],
@@ -76,18 +78,14 @@ def move_beam(beam, location_type, max_x, max_y):
     )
 
 
-def main():
-    lines = parse("day16/data.txt")
-    # keep track of each tiles symbol, if it has been energized, and which directions have been visited already from it
-    locations = list(map(lambda n: [[a, False, []] for a in list(n)], lines))
+# let the beams move from tile to tile
+def traverse_locations(tiles, init_beams):
+    locations = deepcopy(tiles)
+    beams = init_beams
 
     # bounds of the map
     max_x = len(locations[0])
     max_y = len(locations)
-
-    # keep track of the beams and their coordinates
-    # x, y, direction (l, r, u, d)
-    beams = [(0, 0, "r")]
 
     # start moving the beams, treat the array as a queue
     while beams:
@@ -107,7 +105,33 @@ def main():
             filter(lambda n: n, [location[2] for row in locations for location in row])
         )
     )
-    print(f"Energized tiles: {energized_count}")
+    return energized_count
+
+
+def main():
+    lines = parse("day16/data.txt")
+    # keep track of each tiles symbol, if it has been energized, and which directions have been visited already from it
+    locations = list(map(lambda n: [[a, False, []] for a in list(n)], lines))
+
+    # calculate the number of energized tiles when starting from the top left
+    from_top = traverse_locations(locations, [[0, 0, "r"]])
+
+    # go through all edge tiles get the largest possible number of energized tiles
+    most_energized = from_top
+
+    edge_tiles = (
+        [[0, n, "r"] for n in range(1, len(locations))]
+        + [[len(locations[0]) - 1, n, "l"] for n in range(0, len(locations))]
+        + [[n, 0, "d"] for n in range(1, len(locations[0]) - 1)]
+        + [[n, len(locations) - 1, "u"] for n in range(1, len(locations[0]) - 1)]
+    )
+    for tile in edge_tiles:
+        most_energized = max(
+            most_energized,
+            traverse_locations(locations, [tile]),
+        )
+    print(f"Energized tiles: {from_top}")
+    print(f"Largest possible number of energized tiles: {most_energized}")
 
 
 main()
