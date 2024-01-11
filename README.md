@@ -1,18 +1,15 @@
-Advent of Code 2023
-===================
+# Advent of Code 2023
 
 The repository contains solutions for the advent of code problems for 2023 in Python. Credit for the puzzles themselves goes to Eric Wastl (https://adventofcode.com/).
 
-Usage instructions
-------------------
+## Usage instructions
 
-Each day is run on its own. In order to receive the results for each day, place an input into a file called `data.txt` inside the directory for that day, and run the main file for the day. 
+Each day is run on its own. In order to receive the results for each day, place an input into a file called `data.txt` inside the directory for that day, and run the main file for the day.
 
-Status
-------
+## Status
 
 | Day | Half | Status             | Notes                               |
-|-----|------|--------------------|-------------------------------------|
+| --- | ---- | ------------------ | ----------------------------------- |
 | 1   | 1st  | :white_check_mark: |                                     |
 |     | 2nd  | :white_check_mark: |                                     |
 | 2   | 1st  | :white_check_mark: |                                     |
@@ -31,7 +28,7 @@ Status
 |     | 2nd  | :warning:          | Needs major performance improvement |
 | 9   | 1st  | :white_check_mark: |                                     |
 |     | 2nd  | :white_check_mark: |                                     |
-| 10  | 1st  | :x:                |                                     |
+| 10  | 1st  | :white_check_mark: |                                     |
 |     | 2nd  | :x:                |                                     |
 | 11  | 1st  | :white_check_mark: |                                     |
 |     | 2nd  | :white_check_mark: |                                     |
