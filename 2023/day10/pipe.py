@@ -30,6 +30,12 @@ class Pipe:
     def y(self):
         return self.__y
 
+    def visited(self):
+        return self.__visited
+
+    def visit(self):
+        self.__visited = True
+
     # determine if the pipe can be moved into from the provided direction
     # if the move is allowed, mark the pipe as visited
     def canMove(self, direction):

@@ -38,6 +38,8 @@ def main():
     patterns.append(curr_pattern)
     reflections = 0
     for pattern in patterns:
+        # first, without modifications
+        reflection_no_mods = 0
         # try the rows first
         row_reflection = reflection_line(pattern)
         if row_reflection == 0:
@@ -45,10 +47,40 @@ def main():
             columns = []
             for i in range(0, len(pattern[0])):
                 columns.append("".join(map(lambda n: n[i], pattern)))
-            reflections += reflection_line(columns)
+            reflection_no_mods = reflection_line(columns)
         else:
-            reflections += 100 * row_reflection
+            reflection_no_mods = 100 * row_reflection
     print(f"From summarizing the reflections, the sum is: {reflections}")
+    smudge_reflection = 0
+    for pattern in patterns:
+        # try the rows first
+        reflection_value = 0
+        i = 0
+        j = 0
+        while reflection_value == 0:
+            row_reflection = pattern.copy()
+            if row_reflection[i][j] == "#":
+                row_reflection[i] = (
+                    row_reflection[i][:j] + "." + row_reflection[i][j + 1 :]
+                )
+            else:
+                row_reflection[i] = (
+                    row_reflection[i][:j] + "#" + row_reflection[i][j + 1 :]
+                )
+            reflection_value = 100 * reflection_line(row_reflection)
+            if reflection_value == 0:
+                # convert the columns into arrays
+                columns = []
+                for i in range(0, len(pattern[0])):
+                    columns.append("".join(map(lambda n: n[i], row_reflection)))
+                reflection_value += reflection_line(columns)
+            if j == len(pattern[0]):
+                i += 1
+                j = 0
+            else:
+                j += 1
+        smudge_reflection += reflection_value
+    a = 3
 
 
 main()

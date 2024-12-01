@@ -49,9 +49,9 @@ def card_copies(lines):
 
 def main():
     lines = parse("day4/data.txt")
-    point_total = card_values(lines)
+    # point_total = card_values(lines)
     copy_count = card_copies(lines)
-    print(f"Value of the scratchcards: {point_total}")
+    # print(f"Value of the scratchcards: {point_total}")
     print(f"Total number of card copies: {copy_count}")
 
 

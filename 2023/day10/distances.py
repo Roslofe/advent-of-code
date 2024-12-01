@@ -27,19 +27,24 @@ def parse(filename):
     return list(lines)
 
 
-# Get a list of valid neighboring pipes
-# to be valid, the coordinates must be within the range, and the pipe can be entered from the current direction
-def getNeighbourPipes(current, max_x, max_y, pipes):
+def getValidCoords(current, max_x, max_y):
     possible_coords = [
         [current.x() + 1, current.y(), "e"],
         [current.x(), current.y() + 1, "s"],
         [current.x() - 1, current.y(), "w"],
         [current.x(), current.y() - 1, "n"],
     ]
-    # eliminate the coordinates not in range
-    valid_coords = list(
+
+    return list(
         filter(lambda n: n[0] in range(max_x) and n[1] in range(max_y), possible_coords)
     )
+
+
+# Get a list of valid neighboring pipes
+# to be valid, the coordinates must be within the range, and the pipe can be entered from the current direction
+def getNeighbourPipes(current, max_x, max_y, pipes):
+    # eliminate the coordinates not in range
+    valid_coords = getValidCoords(current, max_x, max_y)
     # convert the coordinates into pipes
     valid_pipes = list(map(lambda n: [pipes[n[1]][n[0]], n[2]], valid_coords))
     # filter out those that have already been visited, or cannot be visited from the current pipe
@@ -78,6 +83,37 @@ def main():
             curr_pipes[0], max_x, max_y, pipes
         ) + getNeighbourPipes(curr_pipes[1], max_x, max_y, pipes)
     print(f"The steps needed to get to the farthest position: {distance_from_s}")
+
+    # find the location(s) of a pipe represented by a dot, that is on the edge of the map
+    # said location, for certain, is not inside the pipes
+    curr_locations = list(
+        filter(
+            lambda n: n.symbol() == "." and (n.x() == 0 or n.y() == 0),
+            [pipe for pipe_row in pipes for pipe in pipe_row],
+        )
+    )
+    # DOES NOT WORK, CORNERS/TWO SIDES GOING NEXT TO EACH OTHER
+    # start visiting the outside of the pipes, regardless of their symbol
+    while curr_locations:
+        location = curr_locations.pop()
+        # get the next locations within the limits of the map, that have not been visited already
+        next_locations = list(
+            filter(
+                lambda n: not n.visited(),
+                map(
+                    lambda n: pipes[n[1]][n[0]], getValidCoords(location, max_x, max_y)
+                ),
+            )
+        )
+        # mark all as visited
+        for location in next_locations:
+            location.visit()
+        # add the locations to the list of current locations
+        curr_locations = curr_locations + next_locations
+    # map the pipes into information about if the location is an edge
+    visited_map = [n.visited() for pipe_row in pipes for n in pipe_row]
+
+    print(len(list(filter(lambda n: not n, visited_map))))
 
 
 main()

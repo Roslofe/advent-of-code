@@ -118,7 +118,6 @@ def main():
 
     # go through all edge tiles get the largest possible number of energized tiles
     most_energized = from_top
-
     edge_tiles = (
         [[0, n, "r"] for n in range(1, len(locations))]
         + [[len(locations[0]) - 1, n, "l"] for n in range(0, len(locations))]

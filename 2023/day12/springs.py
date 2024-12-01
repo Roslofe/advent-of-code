@@ -43,8 +43,8 @@ def main():
     lines = parse("day12/data.txt")
     combinations = 0
     for line in lines:
-        broken_sets = list(map(lambda n: int(n), line.split()[1].split(",")))
-        symbols = line.split()[0]
+        broken_sets = list(map(lambda n: int(n), line.split()[1].split(","))) * 5
+        symbols = line.split()[0] * 5
         spring_combinations = valid_combinations(symbols, broken_sets)
         combinations += spring_combinations
     print(f"Sum of the possible combinations: {combinations}")
