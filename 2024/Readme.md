@@ -7,7 +7,7 @@
 | Day | Part 1             | Part 2             | Comments |
 |-----|--------------------|--------------------|----------|
 | 1   | :white_check_mark: | :white_check_mark: |          |
-| 2   | :x:                | :x:                |          |
+| 2   | :white_check_mark: | :x:                |          |
 | 3   | :x:                | :x:                |          | 
 | 4   | :x:                | :x:                |          | 
 | 5   | :x:                | :x:                |          | 
