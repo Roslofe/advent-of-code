@@ -2,6 +2,6 @@
 
 ## Solution status
 
-| Day | Part 1 | Part 2 |
-| --- | ------ | ------ |
-| 1   |        |        |
+| Day | Part 1             | Part 2 |
+| --- | ------------------ | ------ |
+| 1   | :white_check_mark: |        |
